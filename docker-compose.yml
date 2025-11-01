@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  ehs-proxy:
+    build: .
+    container_name: ehs-proxy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      # Monta o Caddyfile para edição direta via nano
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      # Armazena certificados e configs do Caddy
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - ehs-smart_ehs-network
+    depends_on:
+      - ehs-api
+      - ehs-smart
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  ehs-smart_ehs-network:
+    external: true   # Usa a rede já existente criada pelo docker-compose do ehs-smart

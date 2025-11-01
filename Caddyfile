@@ -1,0 +1,16 @@
+apiehs.apexis.cloud {
+    reverse_proxy ehs-api:8080
+}
+
+ehs.apexis.cloud {
+    reverse_proxy ehs-smart:80
+}
+
+# Opcional: redireciona todo HTTP para HTTPS
+http://apiehs.apexis.cloud {
+    redir https://apiehs.apexis.cloud{uri}
+}
+
+http://ehs.apexis.cloud {
+    redir https://ehs.apexis.cloud{uri}
+}
