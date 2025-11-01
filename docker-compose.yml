@@ -25,7 +25,6 @@ services:
     networks:
       - ehs-smart_ehs-network
 
-
 #Passos de deploy
 
 #1 ️⃣ No diretório do proxy (/opt/ehs-proxy):
