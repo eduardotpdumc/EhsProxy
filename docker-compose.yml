@@ -1,16 +1,4 @@
 services:
-  ehs-api:
-    image: ehs-api:latest
-    container_name: ehs-api
-    networks:
-      - ehs-smart_ehs-network
-
-  ehs-smart:
-    image: ehs-smart-ehs-smart:latest
-    container_name: ehs-smart
-    networks:
-      - ehs-smart_ehs-network
-
   ehs-proxy:
     build: .
     container_name: ehs-proxy
@@ -24,6 +12,15 @@ services:
       - caddy_config:/config
     networks:
       - ehs-smart_ehs-network
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  ehs-smart_ehs-network:
+    external: true
+
 
 #Passos de deploy
 
