@@ -1,0 +1,31 @@
+services:
+  ehs-proxy:
+    build: .
+    container_name: ehs-proxy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - ehs-smart_ehs-network
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  ehs-smart_ehs-network:
+    external: true
+
+
+#Passos de deploy
+
+#1 ️⃣ No diretório do proxy (/opt/ehs-proxy):
+#docker build -t ehs-proxy .
+
+#2 ️⃣ Suba o serviço:
+#docker compose up -d --build

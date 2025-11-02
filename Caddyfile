@@ -1,0 +1,58 @@
+# =====================================================
+# Proxy reverso e segurança para o ambiente EHS
+# Domínios: apiehs.apexis.cloud e ehs.apexis.cloud
+# =====================================================
+
+# -------------------------------
+# API EHS
+# -------------------------------
+apiehs.apexis.cloud {
+    reverse_proxy ehs-api:8080
+
+    # Segurança básica
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        X-Frame-Options "DENY"
+        X-Content-Type-Options "nosniff"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        X-XSS-Protection "1; mode=block"
+    }
+
+    # Logging
+    log {
+        output file /data/logs/apiehs-access.log
+        format json
+    }
+}
+
+# Redireciona HTTP → HTTPS automaticamente
+http://apiehs.apexis.cloud {
+    redir https://apiehs.apexis.cloud{uri} permanent
+}
+
+# -------------------------------
+# EHS Frontend
+# -------------------------------
+ehs.apexis.cloud {
+    reverse_proxy ehs-smart:80
+
+    # Segurança básica
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        X-Frame-Options "DENY"
+        X-Content-Type-Options "nosniff"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        X-XSS-Protection "1; mode=block"
+    }
+
+    # Logging
+    log {
+        output file /data/logs/ehs-access.log
+        format json
+    }
+}
+
+# Redireciona HTTP → HTTPS automaticamente
+http://ehs.apexis.cloud {
+    redir https://ehs.apexis.cloud{uri} permanent
+}
