@@ -19,7 +19,7 @@ volumes:
 
 networks:
   ehs-network:
-    external: true
+    driver: bridge
 
 
 #Passos de deploy
