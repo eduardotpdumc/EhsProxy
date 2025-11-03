@@ -27,7 +27,7 @@ Impede o acesso direto aos containers internos (API e frontend).
 
 Filtra e encaminha apenas o tráfego autorizado.
 
-Facilidade de manutenção
+Facilidade de manutenção.
 
 Permite editar e atualizar as configurações facilmente (via Caddyfile e nano).
 
