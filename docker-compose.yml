@@ -11,14 +11,14 @@ services:
       - caddy_data:/data
       - caddy_config:/config
     networks:
-      - ehs-smart_ehs-network
+      - ehs-network
 
 volumes:
   caddy_data:
   caddy_config:
 
 networks:
-  ehs-smart_ehs-network:
+  ehs-network:
     external: true
 
 
