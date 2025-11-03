@@ -56,3 +56,30 @@ ehs.apexis.cloud {
 http://ehs.apexis.cloud {
     redir https://ehs.apexis.cloud{uri} permanent
 }
+
+# -------------------------------
+# Portal Web Apexis 
+# -------------------------------
+apexis.cloud {
+    reverse_proxy apexis:82
+
+    # Segurança básica
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        X-Frame-Options "DENY"
+        X-Content-Type-Options "nosniff"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        X-XSS-Protection "1; mode=block"
+    }
+
+    # Logging
+    log {
+        output file /data/logs/apexis-access.log
+        format json
+    }
+}
+
+# Redireciona HTTP → HTTPS automaticamente
+http://apexis.cloud {
+    redir https://apexis.cloud{uri} permanent
+}
