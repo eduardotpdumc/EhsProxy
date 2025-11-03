@@ -1,6 +1,6 @@
 # =====================================================
 # Proxy reverso e segurança para o ambiente EHS
-# Domínios: apiehs.apexis.cloud e ehs.apexis.cloud
+# Domínios: apiehs.apexis.cloud, ehs.apexis.cloud, apexis.cloud
 # =====================================================
 
 # -------------------------------
@@ -9,8 +9,14 @@
 apiehs.apexis.cloud {
     reverse_proxy ehs-api:8080
 
-    # Segurança básica
+    # Cabeçalhos de segurança + CORS
     header {
+        # CORS
+        Access-Control-Allow-Origin "*"
+        Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+        Access-Control-Allow-Headers "Content-Type, Authorization"
+
+        # Segurança básica
         Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
         X-Frame-Options "DENY"
         X-Content-Type-Options "nosniff"
@@ -36,7 +42,6 @@ http://apiehs.apexis.cloud {
 ehs.apexis.cloud {
     reverse_proxy ehs-smart:80
 
-    # Segurança básica
     header {
         Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
         X-Frame-Options "DENY"
@@ -45,25 +50,22 @@ ehs.apexis.cloud {
         X-XSS-Protection "1; mode=block"
     }
 
-    # Logging
     log {
         output file /data/logs/ehs-access.log
         format json
     }
 }
 
-# Redireciona HTTP → HTTPS automaticamente
 http://ehs.apexis.cloud {
     redir https://ehs.apexis.cloud{uri} permanent
 }
 
 # -------------------------------
-# Portal Web Apexis 
+# Portal Web Apexis
 # -------------------------------
 apexis.cloud {
-    reverse_proxy apexis:82
+    reverse_proxy apexis-site:82
 
-    # Segurança básica
     header {
         Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
         X-Frame-Options "DENY"
@@ -72,14 +74,12 @@ apexis.cloud {
         X-XSS-Protection "1; mode=block"
     }
 
-    # Logging
     log {
         output file /data/logs/apexis-access.log
         format json
     }
 }
 
-# Redireciona HTTP → HTTPS automaticamente
 http://apexis.cloud {
     redir https://apexis.cloud{uri} permanent
 }
